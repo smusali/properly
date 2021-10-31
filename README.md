@@ -1,2 +1,1 @@
-# properly
-Sample API Server for Properly
+# Sample API Server for Properly
