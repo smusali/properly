@@ -4,6 +4,8 @@
   "description": "Sample API Server for Properly",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint index.js test/**/*.js config/**/*.js endpoints/**/*.js lib/**/*.js",
+    "pretest": "npm run lint",
     "start": "nodemon index.js",
     "test": "tap"
   },
@@ -27,6 +29,45 @@
   "bugs": {
     "url": "https://github.com/smusali/properly/issues"
   },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "es2021": true
+    },
+    "extends": [
+      "google"
+    ],
+    "ignorePatterns": [
+      "node_modules/",
+      "coverage/"
+    ]
+  },
+  "tap": {
+    "ts": true,
+    "reporter": "tap",
+    "output-file": ".tap-output",
+    "check-coverage": true,
+    "files": [
+      "test/config/routes.js"
+    ],
+    "coverage-report": [
+      "text",
+      "text-summary",
+      "json",
+      "json-summary",
+      "html"
+    ],
+    "branches": 100,
+    "lines": 100,
+    "functions": 100,
+    "statements": 100,
+    "nyc-arg": [
+      "--all=true",
+      "--exclude=test/",
+      "--exclude=coverage/",
+      "--exclude=*.js"
+    ]
+  },
   "homepage": "https://github.com/smusali/properly#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -34,6 +75,7 @@
   },
   "devDependencies": {
     "eslint": "^8.1.0",
+    "eslint-config-google": "^0.14.0",
     "nodemon": "^2.0.14",
     "supertest": "^6.1.6",
     "tap": "^15.0.10"

@@ -6,18 +6,18 @@ const {test, threw} = require('tap');
 const app = require('../../config/routes');
 
 /** Variables */
-let response, rentID, saleID;
+let response; let rentID; let saleID;
 
 /** Constants */
 const rentData = {
   price: '$1000',
-  email: 'samir.musali@gmail.com'
+  email: 'samir.musali@gmail.com',
 };
 
 const saleData = {
   price: '$300000',
-  email: 'samir.musali@gmail.com'
-}
+  email: 'samir.musali@gmail.com',
+};
 
 /** Test the Routes */
 test('routes', async (t) => {
@@ -33,52 +33,52 @@ test('routes', async (t) => {
   t.same(response.status, 400, 'Invalid Request Body');
   t.same(response.body, {
     error: 'Invalid Request Body',
-    code: 'EINVALID'
+    code: 'EINVALID',
   }, 'Invalid Request Body');
 
   response = await request(app).post('/listings/sale').send({});
   t.same(response.status, 400, 'Invalid Request Body');
   t.same(response.body, {
     error: 'Invalid Request Body',
-    code: 'EINVALID'
+    code: 'EINVALID',
   }, 'Invalid Request Body');
 
   response = await request(app).post('/listings/test').send({});
   t.same(response.status, 404, 'Undefined Listing Type');
   t.same(response.body, {
-      error: 'Undefined Listing Type',
-      code: 'ENOTFOUND'
+    error: 'Undefined Listing Type',
+    code: 'ENOTFOUND',
   }, 'Undefined Listing Type');
 
   response = await request(app).post('/listings/rent').send(rentData);
   t.same(response.status, 200, 'Successful Listing Creation');
   t.match(response.body, {
     message: String,
-    id: String
+    id: String,
   }, 'Successful Listing Creation');
   rentID = response.body.id;
   t.match(response.body, {
     message: `Successfully Created ${rentID}`,
-    id: rentID
+    id: rentID,
   }, 'Successful Listing Creation');
 
   response = await request(app).post('/listings/sale').send(saleData);
   t.same(response.status, 200, 'Successful Listing Creation');
   t.match(response.body, {
     message: String,
-    id: String
+    id: String,
   }, 'Successful Listing Creation');
   saleID = response.body.id;
   t.match(response.body, {
     message: `Successfully Created ${saleID}`,
-    id: saleID
+    id: saleID,
   }, 'Successful Listing Creation');
 
   response = await request(app).post('/listings/test').send(rentData);
   t.same(response.status, 404, 'Undefined Listing Type');
   t.same(response.body, {
-      error: 'Undefined Listing Type',
-      code: 'ENOTFOUND'
+    error: 'Undefined Listing Type',
+    code: 'ENOTFOUND',
   }, 'Undefined Listing Type');
 
   response = await request(app).get('/listings');
@@ -87,12 +87,12 @@ test('routes', async (t) => {
     ...rentData,
     id: rentID,
     created: Number,
-    updated: Number
+    updated: Number,
   }, {
     ...saleData,
     id: saleID,
     created: Number,
-    updated: Number
+    updated: Number,
   }], 'Successful Listing Listing');
 
   response = await request(app).get('/listings/rent');
@@ -101,7 +101,7 @@ test('routes', async (t) => {
     ...rentData,
     id: rentID,
     created: Number,
-    updated: Number
+    updated: Number,
   }], 'Successful Listing Listing');
 
   response = await request(app).get('/listings/sale');
@@ -110,35 +110,35 @@ test('routes', async (t) => {
     ...saleData,
     id: saleID,
     created: Number,
-    updated: Number
+    updated: Number,
   }], 'Successful Listing Listing');
 
   response = await request(app).get('/listings/test');
   t.same(response.status, 404, 'Undefined Listing Type');
   t.same(response.body, {
-      error: 'Undefined Listing Type',
-      code: 'ENOTFOUND'
+    error: 'Undefined Listing Type',
+    code: 'ENOTFOUND',
   }, 'Undefined Listing Type');
 
   response = await request(app).get('/listings').query({
-    ids: [rentID]
+    ids: [rentID],
   });
   t.same(response.status, 200, 'Successful Listing Listing');
   t.match(response.body, [{
     ...rentData,
     id: rentID,
     created: Number,
-    updated: Number
+    updated: Number,
   }], 'Successful Listing Listing');
 
   response = await request(app).get('/listings/rent').query({
-    ids: [saleID]
+    ids: [saleID],
   });
   t.same(response.status, 200, 'Successful Listing Listing');
   t.match(response.body, [], 'Successful Listing Listing');
 
   response = await request(app).get('/listings/sale').query({
-    ids: [rentID]
+    ids: [rentID],
   });
   t.same(response.status, 200, 'Successful Listing Listing');
   t.match(response.body, [], 'Successful Listing Listing');
@@ -147,63 +147,63 @@ test('routes', async (t) => {
   t.same(response.status, 400, 'Invalid Request Body');
   t.same(response.body, {
     error: 'Invalid Request Body',
-    code: 'EINVALID'
+    code: 'EINVALID',
   }, 'Invalid Request Body');
 
   response = await request(app).put(`/listings/sale/${saleID}`).send({});
   t.same(response.status, 400, 'Invalid Request Body');
   t.same(response.body, {
     error: 'Invalid Request Body',
-    code: 'EINVALID'
+    code: 'EINVALID',
   }, 'Invalid Request Body');
 
   response = await request(app).put(`/listings/test/${rentID}`).send({});
   t.same(response.status, 404, 'Undefined Listing Type');
   t.same(response.body, {
-      error: 'Undefined Listing Type',
-      code: 'ENOTFOUND'
+    error: 'Undefined Listing Type',
+    code: 'ENOTFOUND',
   }, 'Undefined Listing Type');
 
   response = await request(app).put(`/listings/rent/${rentID}`).send(rentData);
   t.same(response.status, 200, 'Successful Listing Update');
   t.same(response.body, {
     message: `Successfully Updated ${rentID}`,
-    id: rentID
+    id: rentID,
   }, 'Successful Listing Update');
 
   response = await request(app).put(`/listings/sale/${saleID}`).send(saleData);
   t.same(response.status, 200, 'Successful Listing Update');
   t.same(response.body, {
     message: `Successfully Updated ${saleID}`,
-    id: saleID
+    id: saleID,
   }, 'Successful Listing Update');
 
   response = await request(app).put(`/listings/test/${saleID}`).send(saleData);
   t.same(response.status, 404, 'Undefined Listing Type');
   t.same(response.body, {
-      error: 'Undefined Listing Type',
-      code: 'ENOTFOUND'
+    error: 'Undefined Listing Type',
+    code: 'ENOTFOUND',
   }, 'Undefined Listing Type');
 
   response = await request(app).put(`/listings/rent/${saleID}`).send(saleData);
   t.same(response.status, 400, 'Failed Listing Update');
   t.same(response.body, {
     error: 'Invalid Request Body',
-    code: 'EINVALID'
+    code: 'EINVALID',
   }, 'Failed Listing Update');
 
   response = await request(app).put(`/listings/sale/${rentID}`).send(rentData);
   t.same(response.status, 400, 'Failed Listing Update');
   t.same(response.body, {
     error: 'Invalid Request Body',
-    code: 'EINVALID'
+    code: 'EINVALID',
   }, 'Failed Listing Update');
 
   response = await request(app).put(`/listings/test/${rentID}`).send(rentData);
   t.same(response.status, 404, 'Undefined Listing Type');
   t.same(response.body, {
-      error: 'Undefined Listing Type',
-      code: 'ENOTFOUND'
+    error: 'Undefined Listing Type',
+    code: 'ENOTFOUND',
   }, 'Undefined Listing Type');
 
   response = await request(app).get(`/listings/rent/${rentID}`);
@@ -211,7 +211,7 @@ test('routes', async (t) => {
   t.match(response.body, {
     ...rentData,
     created: Number,
-    updated: Number
+    updated: Number,
   }, 'Successful Listing Retrieval');
 
   response = await request(app).get(`/listings/sale/${saleID}`);
@@ -219,55 +219,55 @@ test('routes', async (t) => {
   t.match(response.body, {
     ...saleData,
     created: Number,
-    updated: Number
+    updated: Number,
   }, 'Successful Listing Retrieval');
 
   response = await request(app).get(`/listings/test/${rentID}`);
   t.same(response.status, 404, 'Undefined Listing Type');
   t.same(response.body, {
-      error: 'Undefined Listing Type',
-      code: 'ENOTFOUND'
+    error: 'Undefined Listing Type',
+    code: 'ENOTFOUND',
   }, 'Undefined Listing Type');
 
   response = await request(app).get(`/listings/rent/${saleID}`);
   t.same(response.status, 404, 'Failed Listing Retrieval');
   t.match(response.body, {
     error: `No Listing Found for ${saleID}`,
-    code: 'ENOTFOUND'
+    code: 'ENOTFOUND',
   }, 'Failed Listing Retrieval');
 
   response = await request(app).get(`/listings/sale/${rentID}`);
   t.same(response.status, 404, 'Failed Listing Retrieval');
   t.match(response.body, {
     error: `No Listing Found for ${rentID}`,
-    code: 'ENOTFOUND'
+    code: 'ENOTFOUND',
   }, 'Failed Listing Retrieval');
 
   response = await request(app).get(`/listings/test/${saleID}`);
   t.same(response.status, 404, 'Undefined Listing Type');
   t.same(response.body, {
-      error: 'Undefined Listing Type',
-      code: 'ENOTFOUND'
+    error: 'Undefined Listing Type',
+    code: 'ENOTFOUND',
   }, 'Undefined Listing Type');
 
   response = await request(app).delete(`/listings/rent/${rentID}`);
   t.same(response.status, 200, 'Successful Listing Removal');
   t.same(response.body, {
     message: `Successfully Removed ${rentID}`,
-    id: rentID
+    id: rentID,
   }, 'Successful Listing Removal');
 
   response = await request(app).delete(`/listings/sale/${saleID}`);
   t.same(response.status, 200, 'Successful Listing Removal');
   t.same(response.body, {
     message: `Successfully Removed ${saleID}`,
-    id: saleID
+    id: saleID,
   }, 'Successful Listing Removal');
 
   response = await request(app).delete(`/listings/test/${rentID}`);
   t.same(response.status, 404, 'Undefined Listing Type');
   t.same(response.body, {
-      error: 'Undefined Listing Type',
-      code: 'ENOTFOUND'
+    error: 'Undefined Listing Type',
+    code: 'ENOTFOUND',
   }, 'Undefined Listing Type');
 }).catch(threw);

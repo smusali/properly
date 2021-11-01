@@ -14,11 +14,12 @@ const info = (req, res) => {
     ' - <b>GET /listings/:type/:id</b>: Retrieves a specific listing',
     ' - <b>PUT /listings/:type/:id</b>: Updates a specific listing',
     ' - <b>DELETE /listings/:type/:id</b>: Removes a specific listing<br>',
-    '<b>Note</b>: A specific listing means a listing characterized by a given id and type<br>',
-    '<b>Available Types</b>: rent & sale'
+    '<b>Note</b>: A specific listing means a listing' +
+    ' characterized by a given id and type<br>',
+    '<b>Available Types</b>: rent & sale',
   ].join('<br>'));
 };
 
 module.exports = {
-  info
+  info,
 };
