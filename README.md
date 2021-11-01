@@ -50,5 +50,8 @@ You can check the results by using this snippet:
 docker logs $(docker ps -a | grep "unitproperly:latest" | awk '{ print $1 }')
 ```
 
+## Improvements
+Please, refer to [improvements.md](./docs/improvements.md) for the potential, possible, and available improvements.
+
 ## License
 This package has been published under an MIT license. See the [LICENSE](./LICENSE) file and https://opensource.org/licenses/MIT
